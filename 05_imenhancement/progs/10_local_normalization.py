@@ -1,8 +1,9 @@
-import pydicom
+import pydicom # install with "pip3 install pydicom"
 import numpy as np
 import skimage.exposure as imexp
 from matplotlib import pyplot as plt
-from scipy.ndimage.filters import gaussian_filter
+# from scipy.ndimage.filters import gaussian_filter # the `scipy.ndimage.filters` namespace is deprecated
+from scipy.ndimage import gaussian_filter
 from PIL import Image
 
 def localfilter(im, sigma=(10, 10,)):
@@ -16,18 +17,21 @@ def localfilter(im, sigma=(10, 10,)):
     y = d/(max_array+np.spacing(1.0))
     return y
 
-file_name = "../Figures/FluroWithDisplayShutter.dcm"
+file_name = "../Figures/10_FluroWithDisplayShutter.dcm"
 dfh = pydicom.read_file(file_name, force=True)
 im = dfh.pixel_array
+
 # convert to float and scale before applying filter
-im = im.astype(np.float)
+# im = im.astype(np.float) # `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself.
+im = im.astype(float)
 im1 = im/np.max(im)
 
 sigma = (5, 5,)
 im2 = localfilter(im, sigma) 
+
 # rescale to 8-bit
 im3 = 255*(im2-im2.min())/(im2.max()-im2.min())
 
 im4 = Image.fromarray(im3).convert("L")
-im4.save('../Figures/local_normalization_output.png')
+im4.save('../Figures/10_local_normalization_output.png')
 im4.show()
