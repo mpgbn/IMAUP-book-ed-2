@@ -9,9 +9,9 @@ def grayscale(data):
     return out
 
 # Opening the image.
-filename = 'input_cir.png'
+# filename = 'input_cir.png'
 # filename = 'input_vhuman_t1.png'
-# filename = 'input_spinwheel.png'
+filename = 'input_spinwheel.png'
 # filename = 'input_maps1.png'
 # filename = 'input_laplacian.png'
 a = cv2.imread('../Figures/' + filename)
